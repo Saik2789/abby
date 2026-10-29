@@ -3,6 +3,7 @@ import * as validation from "@tryabby/core/validation";
 import { mount } from "@vue/test-utils";
 import {
   afterAll,
+  afterEach,
   beforeEach,
   describe,
   expect,
@@ -20,6 +21,10 @@ beforeEach(() => {
   document.cookie = "";
   vi.resetModules();
   process.env = { ...OLD_ENV };
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 afterAll(() => {

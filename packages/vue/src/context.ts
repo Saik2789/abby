@@ -356,13 +356,15 @@ export function createAbby<
         }
       });
 
-      const unsubscribe = abby.subscribe((newData) => {
-        data.value = newData;
-      });
+      if (typeof window !== "undefined") {
+        const unsubscribe = abby.subscribe((newData) => {
+          data.value = newData;
+        });
 
-      onUnmounted(() => {
-        unsubscribe();
-      });
+        onUnmounted(() => {
+          unsubscribe();
+        });
+      }
 
       provide(AbbyDataKey, data);
       provide(AbbyInstanceKey, abby);
@@ -386,9 +388,11 @@ export function createAbby<
         });
       }
 
-      abby.subscribe((newData) => {
-        data.value = newData;
-      });
+      if (typeof window !== "undefined") {
+        abby.subscribe((newData) => {
+          data.value = newData;
+        });
+      }
 
       app.provide(AbbyDataKey, data);
       app.provide(AbbyInstanceKey, abby);

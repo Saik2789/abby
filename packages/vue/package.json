@@ -6,15 +6,18 @@
   "files": ["dist"],
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  ".": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "scripts": {
     "build": "tsup src/",
     "dev": "pnpm run build --watch",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "homepage": "https://docs.tryabby.com",
   "keywords": [
