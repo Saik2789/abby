@@ -85,10 +85,14 @@ export function createAbby<
         if (typeof window === "undefined") return null;
         return TestStorageService.get(abbyConfig.projectId, key);
       },
-      set: (key: string, value: string) => {
+      set: (
+        key: string,
+        value: string,
+        options?: { expiresInDays?: number }
+      ) => {
         if (typeof window === "undefined" || config.cookies?.disableByDefault)
           return;
-        TestStorageService.set(abbyConfig.projectId, key, value);
+        TestStorageService.set(abbyConfig.projectId, key, value, options);
       },
     },
     {
@@ -119,9 +123,11 @@ export function createAbby<
   const AbbyInstanceKey: InjectionKey<typeof abby> = Symbol("AbbyInstance");
 
   const defaultData = shallowRef<AbbyProjectData>(abby.getProjectData());
-  abby.subscribe((newData) => {
-    defaultData.value = newData;
-  });
+  if (typeof window !== "undefined") {
+    abby.subscribe((newData) => {
+      defaultData.value = newData;
+    });
+  }
 
   const useAbbyData = (): Ref<AbbyProjectData> => {
     const instance = getCurrentInstance();
